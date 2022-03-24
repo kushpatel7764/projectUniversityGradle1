@@ -40,8 +40,9 @@ public class Student{
     }
 
     public void addClassToTranscript(int credits, double grade) {
-        double points = credits * grade;
+        double points =  credits * grade;
         gpa = points/credits;
+
 
     }
 }
