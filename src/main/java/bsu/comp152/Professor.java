@@ -21,11 +21,18 @@ public class Professor{
     }
 
     public ArrayList<Student> getAdviseeList() {
-        return null;
+        return adviseeList;
     }
 
     public String getName() {
-        return null;
+        return name;
     }
 
+    public String toString() {
+        String output = "";
+        for (int i = 0; i < adviseeList.size(); i++){
+            output += adviseeList.get(i).name + " ";
+        }
+        return "Professor's name: " + name + "\n" + "Department: " + department + "\n" + "Advisee List: " + output;
+    }
 }
