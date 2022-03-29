@@ -1,7 +1,7 @@
 package bsu.comp152;
 
 public class Student{
-    int studentID;
+   int studentID;
     String name;
     int numberOfCredits;
     double gpa;
@@ -40,9 +40,15 @@ public class Student{
     }
 
     public void addClassToTranscript(int credits, double grade) {
-        double points =  credits * grade;
-        gpa = points/credits;
+        double currentPoints =  credits * grade;
+        double oldTotalPoints = gpa * numberOfCredits;
+        numberOfCredits = numberOfCredits + credits;
+        double TotalPoints = oldTotalPoints + currentPoints;
+        gpa = TotalPoints/numberOfCredits;
 
+    }
+    public String toString(){
+        return "Student name: " + name + "\n" + "StudentID: " + studentID + "\n" + "studentIDAdvisor's name: " + advisor.getName() + "\n" + "GPA: " + gpa;
 
     }
 }
