@@ -3,8 +3,7 @@ package bsu.comp152;
 import java.util.*;
 
 public class University {
-
-    ArrayList<Student> studentList;
+ArrayList<Student> studentList;
     int nextStudentID;
     ArrayList<Professor> faculty;
 
@@ -33,10 +32,11 @@ public class University {
 
     public ArrayList<Student> findStudent(int id) {
         ArrayList<Student> foundStudent = new ArrayList<Student>();
-        for (int i = 0; i < studentList.size(); i++){
-            if (studentList.get(i).studentID == id){
-                foundStudent.add(studentList.get(i));
+        for (Student student : studentList) {
+            if (student.getStudentID() == id) {
+                foundStudent.add(student);
             }
+
         }
         return foundStudent;
     }
@@ -44,6 +44,7 @@ public class University {
     public List<Student> graduateStudents() {
         return null;
     }
+
 
 }
 
