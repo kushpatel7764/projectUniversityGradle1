@@ -3,7 +3,7 @@ package bsu.comp152;
 import java.util.*;
 
 public class University {
-ArrayList<Student> studentList;
+    ArrayList<Student> studentList;
     int nextStudentID;
     ArrayList<Professor> faculty;
 
@@ -14,7 +14,7 @@ ArrayList<Student> studentList;
     }
 
     public ArrayList<Professor> getFaculty() {
-        return null;
+        return faculty;
     }
 
     public void hireProfessor(Professor professor) {
@@ -42,9 +42,19 @@ ArrayList<Student> studentList;
     }
 
     public List<Student> graduateStudents() {
-        return null;
-    }
+        ArrayList<Student> graduatedStudents = new ArrayList<Student>();
+        for (Student student : studentList) {
+                if (student.getGPA() >= 2.0 && student.getCreditHours() >= 20){
+                    graduatedStudents.add(student);
+                }
 
+        }
+        for (Student student: graduatedStudents){
+            studentList.remove(student);
+            student.getAdvisor().removeAdvisee(student);
+        }
+        return graduatedStudents;
+    }
 
 }
 
