@@ -4,8 +4,7 @@ import java.sql.SQLOutput;
 import java.util.Random;
 import java.util.Scanner;
 
-public class UniversityRunner {
-    University university;
+public class UniversityRunner {University university;
     Scanner keyboard;
     public UniversityRunner(University university) {
         keyboard = new Scanner(System.in);
@@ -62,12 +61,13 @@ public class UniversityRunner {
          System.out.println("Please enter StudentID: ");
          String studentID = keyboard.nextLine();
          int StudentID = Integer.parseInt(studentID);
-         if ( university.findStudent(StudentID).size() <= 0){
+         if (university.findStudent(StudentID).size() <= 0){
              System.out.println("Student was not found");
          }
          if (university.findStudent(StudentID).size() > 0) {
              university.findStudent(StudentID).get(0).toString();
-             // Open student menu for the student above
+             Transcript(university.findStudent(StudentID).get(0));// Open student menu for the student above
+             Advisor(university.findStudent(StudentID).get(0));
          }
      }
 
@@ -81,7 +81,27 @@ public class UniversityRunner {
         System.exit(0);
      }
 
-     void StudentMenu (){
+     void Transcript (Student student){
+         System.out.println("Enter the number of credits for the class: ");
+         int credits = keyboard.nextInt();
+         System.out.println("Enter your grade for the class: ");
+         double grade = keyboard.nextInt();
+         student.addClassToTranscript(credits, grade);
+     }
 
+     void Advisor (Student student) {
+         for (Professor professor : university.getFaculty()){
+             System.out.println(professor.toString() + "\n");
+         }
+         System.out.println("Enter the name for the advisor: ");
+         String advisor = keyboard.nextLine();
+         if (advisor.equals(university.getFaculty().get(university.getFaculty().indexOf(advisor)).name)){
+            student.getAdvisor().removeAdvisee(student);
+            student.changeAdvisor(university.getFaculty().get(university.getFaculty().indexOf(advisor)));
+             university.getFaculty().get(university.getFaculty().indexOf(advisor)).addAdvisee(student);
+         }
+         else {
+             System.out.println("No Professor found");
+         }
      }
 }
