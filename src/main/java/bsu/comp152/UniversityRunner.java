@@ -138,7 +138,7 @@ public class UniversityRunner {
          }
          System.out.print("Enter the name for the advisor: ");
          String advisor = keyboard.nextLine();
-         if (advisor.equals(university.getFaculty().get(university.getFaculty().indexOf(advisor)).name)){
+         if (advisor.equals(university.getFaculty().get(university.getFaculty().indexOf(advisor)).getname())){
             student.getAdvisor().removeAdvisee(student);
             student.changeAdvisor(university.getFaculty().get(university.getFaculty().indexOf(advisor)));
              university.getFaculty().get(university.getFaculty().indexOf(advisor)).addAdvisee(student);
