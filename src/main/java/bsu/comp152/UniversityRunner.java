@@ -31,14 +31,20 @@ public class UniversityRunner {
             switch (choice) {
                 case 1:
                     HireProf();
+                    break;
                 case 2:
                     AdmitStudent();
+                    break;
                 case 3:
                     ProcessGrad();
+                    break;
                 case 4:
                     FindStudent();
+                    break;
                 case 5:
                     FacultyList();
+                    break;
+                case 6: break;
             }
         }while(choice != 6);
     }
@@ -50,25 +56,24 @@ public class UniversityRunner {
         String profDepartment = keyboard.nextLine();
         Professor professor = new Professor(profName, profDepartment);
         university.hireProfessor(professor);
-        runUniversity();
     }
      void AdmitStudent (){
         int n = 1;
         if (university.getFaculty().size() <= 0){
-            System.out.print("No professor available");
+            System.out.println("No professor available");
             runUniversity();
         }
          System.out.print("Student's Name: ");
          String studentName = keyboard.nextLine();
 
          Random rand = new Random();
-         Professor prof = university.getFaculty().get(rand.nextInt(university.getFaculty().size()));
+         Professor prof = university.getFaculty().get(rand.nextInt((university.getFaculty().size() - 1)));
 
          Student student = new Student(studentName, prof, n); // ask what to do for id
          n++;
-         university.getFaculty().get(university.getFaculty().indexOf(prof)).addAdvisee(student);
+         prof.addAdvisee(student);
          university.admitStudent(student);
-         runUniversity();
+
      }
 
      void ProcessGrad (){
@@ -81,37 +86,41 @@ public class UniversityRunner {
                 System.out.println(student.getName() + " graduated with honors.");
             }
         }
-        runUniversity();
      }
 
      void FindStudent (){
          System.out.print("Please enter StudentID: ");
-         String studentID = keyboard.nextLine();
-         int StudentID = Integer.parseInt(studentID);
-         if (university.findStudent(StudentID).size() <= 0){
+         int studentID = keyboard.nextInt();
+         keyboard.nextLine();
+         if (university.findStudent(studentID).size() <= 0){
              System.out.println("Student was not found");
          }
-         if (university.findStudent(StudentID).size() > 0) {
-             university.findStudent(StudentID).get(0).toString();
-             StudentMenu(university.findStudent(StudentID).get(0));
+         if (university.findStudent(studentID).size() > 0) {
+             university.findStudent(studentID).get(0).toString();
+             StudentMenu(university.findStudent(studentID).get(0));
          }
-         runUniversity();
      }
 
      void StudentMenu (Student student){
         int choice = 0;
-            System.out.print("1. Add a class to the transcript \n" +
-                    "2. Assign an advisor to the student \n" +
-                    "3. Exit \n" +
-                    "Please type the number with your choice: ");
+            System.out.print("""
+                    1. Add a class to the transcript\s
+                    2. Assign an advisor to the student\s
+                    3. Exit\s
+                    Please type the number with your choice:\s""");
             choice = keyboard.nextInt();
             keyboard.nextLine();
             switch (choice) {
                 case 1:
                     Transcript(student);
+                    break;
                 case 2:
                     Advisor(student);
-                case 3: runUniversity();
+                    break;
+                case 3:
+                    runUniversity();
+                    break;
+
             }
      }
 
@@ -129,7 +138,6 @@ public class UniversityRunner {
          double grade = keyboard.nextDouble();
          keyboard.nextLine();
          student.addClassToTranscript(credits, grade);
-         StudentMenu(student);
      }
 
      void Advisor (Student student) {
@@ -138,14 +146,14 @@ public class UniversityRunner {
          }
          System.out.print("Enter the name for the advisor: ");
          String advisor = keyboard.nextLine();
-         if (advisor.equals(university.getFaculty().get(university.getFaculty().indexOf(advisor)).getName())){
-            student.getAdvisor().removeAdvisee(student);
-            student.changeAdvisor(university.getFaculty().get(university.getFaculty().indexOf(advisor)));
-             university.getFaculty().get(university.getFaculty().indexOf(advisor)).addAdvisee(student);
+         for (Professor professor: university.getFaculty()) {
+             if (advisor.equals(professor.getName())) {
+                 student.getAdvisor().removeAdvisee(student);
+                 student.changeAdvisor(professor);
+                 professor.addAdvisee(student);
+             }
          }
-         else {
-             System.out.println("No Professor found");
-         }
-         StudentMenu(student);
+         System.out.println("No Professor found");
+
      }
 }
