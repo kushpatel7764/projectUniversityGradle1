@@ -18,7 +18,6 @@ public class UniversityRunner {
 
     public void runUniversity(){
         int choice = 0;
-        do {
             System.out.print("1. Hire a professor\n" +
                     "2. Admit a student\n" +
                     "3. Process graduation\n" +
@@ -46,7 +45,6 @@ public class UniversityRunner {
                     break;
                 case 6: break;
             }
-        }while(choice != 6);
     }
 
     void HireProf (){
@@ -58,7 +56,6 @@ public class UniversityRunner {
         university.hireProfessor(professor);
     }
      void AdmitStudent (){
-        int n = 1;
         if (university.getFaculty().size() <= 0){
             System.out.println("No professor available");
             runUniversity();
@@ -67,10 +64,10 @@ public class UniversityRunner {
          String studentName = keyboard.nextLine();
 
          Random rand = new Random();
-         Professor prof = university.getFaculty().get(rand.nextInt((university.getFaculty().size() - 1)));
+         Professor prof = university.getFaculty().get(rand.nextInt((university.getFaculty().size())));
 
-         Student student = new Student(studentName, prof, n); // ask what to do for id
-         n++;
+         Student student = new Student(studentName, prof, 2000); // ask what to do for id
+
          prof.addAdvisee(student);
          university.admitStudent(student);
 
