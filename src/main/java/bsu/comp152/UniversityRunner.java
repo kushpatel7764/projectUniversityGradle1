@@ -17,34 +17,37 @@ public class UniversityRunner {
     }
 
     public void runUniversity(){
-        int choice = 0;
-            System.out.print("1. Hire a professor\n" +
-                    "2. Admit a student\n" +
-                    "3. Process graduation\n" +
-                    "4. Look up a student\n" +
-                    "5. Print a list of current faculty\n" +
-                    "6. Exit \n" +
-                    "Please type the number with your choice: ");
-            choice = keyboard.nextInt();
-            keyboard.nextLine();
-            switch (choice) {
-                case 1:
-                    HireProf();
-                    break;
-                case 2:
-                    AdmitStudent();
-                    break;
-                case 3:
-                    ProcessGrad();
-                    break;
-                case 4:
-                    FindStudent();
-                    break;
-                case 5:
-                    FacultyList();
-                    break;
-                case 6: break;
+        int choice;
+        do{
+        System.out.print("1. Hire a professor\n" +
+                "2. Admit a student\n" +
+                "3. Process graduation\n" +
+                "4. Look up a student\n" +
+                "5. Print a list of current faculty\n" +
+                "6. Exit \n" +
+                "Please type the number with your choice: ");
+        choice = keyboard.nextInt();
+        keyboard.nextLine();
+        switch (choice) {
+            case 1:
+                HireProf();
+                break;
+            case 2:
+                AdmitStudent();
+                break;
+            case 3:
+                ProcessGrad();
+                break;
+            case 4:
+                FindStudent();
+                break;
+            case 5:
+                FacultyList();
+                break;
+            case 6:
+                break;
             }
+        }while(choice != 6);
     }
 
     void HireProf (){
@@ -55,25 +58,25 @@ public class UniversityRunner {
         Professor professor = new Professor(profName, profDepartment);
         university.hireProfessor(professor);
     }
-     void AdmitStudent (){
+    void AdmitStudent (){
         if (university.getFaculty().size() <= 0){
             System.out.println("No professor available");
             runUniversity();
         }
-         System.out.print("Student's Name: ");
-         String studentName = keyboard.nextLine();
+        System.out.print("Student's Name: ");
+        String studentName = keyboard.nextLine();
 
-         Random rand = new Random();
-         Professor prof = university.getFaculty().get(rand.nextInt((university.getFaculty().size())));
+        Random rand = new Random();
+        Professor prof = university.getFaculty().get(rand.nextInt((university.getFaculty().size())));
 
-         Student student = new Student(studentName, prof, 2000); // ask what to do for id
+        Student student = new Student(studentName, prof, 2000); // ask what to do for id
 
-         prof.addAdvisee(student);
-         university.admitStudent(student);
+        prof.addAdvisee(student);
+        university.admitStudent(student);
 
-     }
+    }
 
-     void ProcessGrad (){
+    void ProcessGrad (){
         for (Student student : university.graduateStudents()){
             System.out.println("Congratulations " + student.getName() + "!!!");
             if (student.getGPA() > 3.7f) {
@@ -83,74 +86,73 @@ public class UniversityRunner {
                 System.out.println(student.getName() + " graduated with honors.");
             }
         }
-     }
+    }
 
-     void FindStudent (){
-         System.out.print("Please enter StudentID: ");
-         int studentID = keyboard.nextInt();
-         keyboard.nextLine();
-         if (university.findStudent(studentID).size() <= 0){
-             System.out.println("Student was not found");
-         }
-         if (university.findStudent(studentID).size() > 0) {
-             university.findStudent(studentID).get(0).toString();
-             StudentMenu(university.findStudent(studentID).get(0));
-         }
-     }
+    void FindStudent (){
+        System.out.print("Please enter StudentID: ");
+        int studentID = keyboard.nextInt();
+        keyboard.nextLine();
+        if (university.findStudent(studentID).size() <= 0){
+            System.out.println("Student was not found");
+        }
+        if (university.findStudent(studentID).size() > 0) {
+            university.findStudent(studentID).get(0).toString();
+            StudentMenu(university.findStudent(studentID).get(0));
+        }
+    }
 
-     void StudentMenu (Student student){
-        int choice = 0;
-            System.out.print("""
-                    1. Add a class to the transcript\s
-                    2. Assign an advisor to the student\s
-                    3. Exit\s
-                    Please type the number with your choice:\s""");
-            choice = keyboard.nextInt();
-            keyboard.nextLine();
-            switch (choice) {
-                case 1:
-                    Transcript(student);
-                    break;
-                case 2:
-                    Advisor(student);
-                    break;
-                case 3:
-                    runUniversity();
-                    break;
+    void StudentMenu (Student student){
+        int choice;
+        System.out.print(" 1. Add a class to the transcript\n" +
+                    "2. Assign an advisor to the student\n" +
+                    "3. Exit\n" +
+                    "Please type the number with your choice: ");
+        choice = keyboard.nextInt();
+        keyboard.nextLine();
+        switch (choice) {
+            case 1:
+                Transcript(student);
+                break;
+            case 2:
+                Advisor(student);
+                break;
+            case 3:
+                runUniversity();
+                break;
 
-            }
-     }
+        }
+    }
 
-     void FacultyList (){
+    void FacultyList (){
         for (Professor professor : university.getFaculty()){
             System.out.println(professor.toString() + "\n");
         }
-     }
+    }
 
-     void Transcript (Student student){
-         System.out.print("Enter the number of credits for the class: ");
-         int credits = keyboard.nextInt();
-         keyboard.nextLine();
-         System.out.print("Enter your grade for the class: ");
-         double grade = keyboard.nextDouble();
-         keyboard.nextLine();
-         student.addClassToTranscript(credits, grade);
-     }
+    void Transcript (Student student){
+        System.out.print("Enter the number of credits for the class: ");
+        int credits = keyboard.nextInt();
+        keyboard.nextLine();
+        System.out.print("Enter your grade for the class: ");
+        double grade = keyboard.nextDouble();
+        keyboard.nextLine();
+        student.addClassToTranscript(credits, grade);
+    }
 
-     void Advisor (Student student) {
-         for (Professor professor : university.getFaculty()){
-             System.out.println(professor.toString() + "\n");
-         }
-         System.out.print("Enter the name for the advisor: ");
-         String advisor = keyboard.nextLine();
-         for (Professor professor: university.getFaculty()) {
-             if (advisor.equals(professor.getName())) {
-                 student.getAdvisor().removeAdvisee(student);
-                 student.changeAdvisor(professor);
-                 professor.addAdvisee(student);
-             }
-         }
-         System.out.println("No Professor found");
+    void Advisor (Student student) {
+        for (Professor professor : university.getFaculty()){
+            System.out.println(professor.toString() + "\n");
+        }
+        System.out.print("Enter the name for the advisor: ");
+        String advisor = keyboard.nextLine();
+        for (Professor professor: university.getFaculty()) {
+            if (advisor.equals(professor.getName())) {
+                student.getAdvisor().removeAdvisee(student);
+                student.changeAdvisor(professor);
+                professor.addAdvisee(student);
+            }
+        }
+        System.out.println("No Professor found");
 
-     }
+    }
 }
